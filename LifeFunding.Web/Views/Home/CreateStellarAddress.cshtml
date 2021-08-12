@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Create Stellar Address";
+}
+
+<script type="text/javascript">
+    var server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
+
+    function generateAddress() {
+        var keypair = StellarSdk.Keypair.random();
+        $('#public').text(keypair.publicKey())
+        $('#secret').text(keypair.secret())
+        return false;
+    }
+    function fundAccount() {
+        this.server.friendbot(
+            $('#public_address').val()
+        ).call()
+            .then((res) => {
+                alert('Your account has received test XLM.')
+            });
+        return false;
+    }
+</script>
+
+<h2>Create Stellar Address</h2>
+
+<div class="alert alert-success">
+    If you don't have a Stellar address, you can create one here.
+</div>
+
+
+<div class="form-horizontal">
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            Please, click here: <a href="#" class="btn btn-default" onclick="generateAddress();">Generate address</a>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-8">
+            Your new address: <span id="public"></span>
+        </div>
+        <div class="col-md-3 alert alert-info">
+            This is your public address, for sharing when you want to receive XLM. Please save this data.
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-8">
+            Secret key: <span id="secret"></span>
+        </div>
+        <div class="col-md-3 alert alert-warning">
+            This is your secret key, you shouldn't share this value with anyone. Please save this data for send XLM o recover your account.
+        </div>
+    </div>
+
+</div>
+
+
+<h3>Fund your account</h3>
+<div class="alert alert-success">
+    You can receive trial XLM in your account.
+</div>
+
+<div class="form-horizontal">
+    <div class="form-group">
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="public_address" /> 
+            
+            <a href="#" class="btn btn-default" onclick="fundAccount();">Receive XLM (please wait until a popup with confirmation)</a>
+        </div>
+    </div>
+</div>

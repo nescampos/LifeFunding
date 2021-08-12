@@ -1,0 +1,65 @@
+﻿@model IEnumerable<LifeFunding.Web.Models.Database.Cause>
+
+@{
+    ViewBag.Title = "ListCauses";
+}
+
+
+<script type="text/javascript">
+    var server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
+
+
+    function getDonations(id) {
+        var balance = 0;
+        this.server.loadAccount(
+            id
+        ).then((account) => {
+            balance = Number.parseFloat(account.balances.find(b => b.asset_type == 'native').balance);
+            $('#balance_'+id).text(balance);
+        });
+    }
+
+</script>
+
+<h2>Cause List</h2>
+
+<table class="table table-condensed table-responsive table-hover">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Deadline</th>
+            <th>Goal</th>
+            <th>Amount achieved</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cause in Model)
+        {
+            <tr>
+                <th>
+                    <script type="text/javascript">
+                        getDonations('@cause.StellarAddress');
+                    </script>
+                    <img src="@cause.Photo" alt="@cause.Name" style="height:120px;" class="img-rounded img-responsive" />
+                </th>
+                <th>
+                    @cause.Name
+                </th>
+                <td>
+                    @cause.Deadline
+                </td>
+                <td>
+                    @cause.FundGoal XLM
+                </td>
+                <td>
+                    <span id="balance_@cause.StellarAddress">0</span> XLM
+                </td>
+                <td>
+                    @Html.ActionLink("See more", "ViewCause", new { id = cause.Id }, new { @class = "btn btn-info" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,2 +1,2 @@
 # LifeFunding
-LifeFunding Demo project for Hack Africa - Encode Hackathon
+LifeFunding Demo project for Hackathon

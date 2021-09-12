@@ -1,2 +1,2 @@
 # LifeFunding
-LifeFunding Demo project for Hackathon
+LifeFunding Demo project
